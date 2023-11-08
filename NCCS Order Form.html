@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shirt and Hoodie Order Form</title>
+</head>
+<body>
+
+<h1>Shirt and Hoodie Order Form</h1>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = $_POST["name"];
+    $email = $_POST["email"];
+    $address = $_POST["address"];
+    $product = $_POST["product"];
+    $size = $_POST["size"];
+    $color = $_POST["color"];
+    $quantity = $_POST["quantity"];
+
+    // Send email notification
+    $to = "Michael.Allen@crusadegear.com";
+    $subject = "New Order";
+    $message = "Name: $name\n";
+    $message .= "Email: $email\n";
+    $message .= "Address: $address\n";
+    $message .= "Product: $product\n";
+    $message .= "Size: $size\n";
+    $message .= "Color: $color\n";
+    $message .= "Quantity: $quantity\n";
+
+    $headers = "From: $email";
+
+    if (mail($to, $subject, $message, $headers)) {
+        echo "<p>Thank you, $name! Your order has been received and a confirmation email has been sent.</p>";
+    } else {
+        echo "<p>Sorry, there was an error processing your order. Please try again later.</p>";
+    }
+} else {
+    echo "<p>Invalid request. Please use the order form to submit an order.</p>";
+}
+?>
+
+<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required><br><br>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required><br><br>
+
+    <label for="address">Address:</label>
+    <textarea id="address" name="address" required></textarea><br><br>
+
+    <label for="product">Product:</label>
+    <select id="product" name="product" required>
+        <option value="shirt">Shirt</option>
+        <option value="hoodie">Hoodie</option>
+    </select><br><br>
+
+    <label for="size">Size:</label>
+    <select id="size" name="size" required>
+        <option value="small">Small</option>
+        <option value="medium">Medium</option>
+        <option value="large">Large</option>
+        <option value="xlarge">X-Large</option>
+        <option value="xxlarge">XX-Large</option>
+    </select><br><br>
+
+    <label for="color">Color:</label>
+    <select id="color" name="color" required>
+        <option value="blue">Blue</option>
+        <option value="black">Black</option>
+        <option value="white">White</option>
+        <option value="gray">Gray</option>
+    </select><br><br>
+
+    <label for="quantity">Quantity:</label>
+    <input type="number" id="quantity" name="quantity" min="1" required><br><br>
+
+    <input type="submit" value="Submit Order">
+
+</form>
+
+</body>
+</html>
